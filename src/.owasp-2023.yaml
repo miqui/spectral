@@ -1,0 +1,39 @@
+extends:
+  - "@stoplight/spectral-rulesets/oas"
+  - "@stoplight/spectral-owasp-ruleset"
+
+rules:
+  # Broken Object Level Authorization (API1:2023)
+  oas3-api1-2023: warn
+  oas3-api1-2023-objects: warn
+
+  # Broken User Authentication (API2:2023)
+  oas3-api2-2023: warn
+  oas3-api2-2023-bearer: warn
+  oas3-api2-2023-cookie: warn
+  oas3-api2-2023-basic: warn
+
+  # Broken Object Property Level Authorization (API3:2023)
+  oas3-api3-2023: warn
+  oas3-api3-2023-objects: warn
+
+  # Unrestricted Resource Consumption (API4:2023)
+  oas3-api4-2023: warn
+
+  # Broken Function Level Authorization (API5:2023)
+  oas3-api5-2023: warn
+
+  # Unrestricted Access to Sensitive Business Flows (API6:2023)
+  oas3-api6-2023: warn
+
+  # Server-Side Request Forgery (API7:2023)
+  oas3-api7-2023: warn
+
+  # Security Misconfiguration (API8:2023)
+  oas3-api8-2023: warn
+
+  # Improper Assets Management (API9:2023)
+  oas3-api9-2023: warn
+
+  # Unsafe Consumption of APIs (API10:2023)
+  oas3-api10-2023: warn
