@@ -1,0 +1,77 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+#
+# SPDX-FileCopyrightText: Copyright 2022 Micron Technology, Inc.
+
+# Used for validating the docs/openapi.json file
+extends: [[spectral:oas, recommended]]
+rules:
+  operation-id-format:
+    description: Operation IDs must be kebab case.
+    message: "{{description}} {{error}}"
+    given: "$.paths[*][get,put,post,delete,options,head,patch,trace]"
+    severity: error
+    then:
+      field: operationId
+      function: casing
+      functionOptions:
+        type: kebab
+  operation-tags-allowed:
+    description: Only certain tags are allowed.
+    message: "{{description}} {{error}}"
+    given: "$.paths[*][get,put,post,delete,options,head,patch,trace]"
+    severity: error
+    then:
+      field: tags
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            type: string
+            enum:
+              - test-tag1
+              - test-tag2
+            
+  operations-must-have-x-options:
+    description: Operations must have x-options.
+    message: "{{description}} {{error}}"
+    given: "$.paths[*][get,put,post,delete,options,head,patch,trace]"
+    severity: error
+    then:
+      field: x-options
+      function: truthy
+
+  x-options-schema:
+    description: x-options must have the correct schema.
+    message: "{{description}} {{error}}"
+    given: "$.paths[*][get,put,post,delete,options,head,patch,trace]"
+    severity: error
+    then:
+      field: x-options
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              long:
+                type: string
+              short:
+                type: string
+                minLength: 1
+                maxLength: 1
+              description:
+                type: string
+              requires-arguments:
+                type: boolean
+              parameter:
+                type: string
+                pattern: "^#\/[a-zA-Z0-9]+[a-zA-Z0-9\/]"
+            required:
+              - long
+              - short
+              - description
+  
