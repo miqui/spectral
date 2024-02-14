@@ -1,0 +1,11 @@
+rules:
+  https-usage:
+    description: All API endpoints must use HTTPS.
+    message: "{{property}} - Use HTTPS for secure communication"
+    severity: error
+    given: $..paths.*  # Target all API path definitions
+    then:
+      field: schemes
+      function: schema
+      functionOptions:
+        schema: ["https"]  
