@@ -1,0 +1,11 @@
+rules:
+  sensitive-data-leakage:
+    description: API responses must not inadvertently expose sensitive cardholder data.
+    message: "{{property}} - Potential leakage of sensitive information."
+    severity: error
+    given: $..paths.*.*.responses[?(@property >= '200' && @property < '300')].schema 
+    then:
+      field: properties
+      function: pattern 
+      functionOptions:
+        match: "(pan|card number|cvv|cvc|expiry)" 
