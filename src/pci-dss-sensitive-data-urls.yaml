@@ -1,0 +1,11 @@
+rules:
+  no-card-data-in-url:
+    description: Cardholder data must not be passed in URL parameters.
+    message: "{{property}} - Pass sensitive data in headers or request body."
+    severity: error
+    given: $..paths.*.*.parameters[?(@.in == 'query')] 
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        notMatch: "card|holder|cvv|expiry" 
