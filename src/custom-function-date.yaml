@@ -1,0 +1,17 @@
+rules:
+  consistent-date-range:
+    description: Ensure 'endDate'  is after 'startDate' where applicable.
+    message: "{{property}} - End date must occur after start date."
+    severity: error
+    given: $..paths.*.*[?(@property == 'post' || @property == 'put')] 
+    then:
+      function: javascript
+      functionOptions:
+        script: |
+          if (value.startDate && value.endDate) { 
+            const startDate = new Date(value.startDate);
+            const endDate = new Date(value.endDate);
+            return startDate <= endDate; 
+          } else {
+            return true; // Not applicable unless both dates exist
+          }
