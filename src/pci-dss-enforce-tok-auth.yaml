@@ -1,0 +1,8 @@
+rules:
+  token-auth-required:
+    description: API endpoints handling sensitive data must use token-based authentication.
+    message: "{{property}} - Implement token-based authentication."
+    severity: error
+    given: $..paths[?(@.['x-pci-sensitive'] == true)]  # Targets endpoints flagged as handling sensitive data
+    then:
+      function: schema # Ensure a 'security' definition exists within the endpoint 
