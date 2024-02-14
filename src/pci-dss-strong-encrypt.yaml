@@ -1,0 +1,21 @@
+rules:
+  strong-encryption: 
+    description: Sensitive data transmission or storage must use strong encryption algorithms.
+    message: "{{property}} - Use AES-256, TLS 1.2 or above, or other approved ciphers."
+    severity: error
+    given: $
+    then:
+      - field: securityDefinitions # (OpenAPI 3.0)
+        function: patternMatch 
+        functionOptions:
+          path: "^.*\.type$"
+          match: "oauth2|apiKey" # Ensure secure auth types like these are present
+      - field: security[*]  
+        function: patternMatch
+        functionOptions: 
+          path: "^.*\.scheme$"
+          match: "https"  # Enforce HTTPS on endpoints using these definitions
+      - field: servers[*].url 
+        function: pattern
+        functionOptions:
+          match: "^https:\/\/" #  Enforce HTTPS directly on base server URLs 
