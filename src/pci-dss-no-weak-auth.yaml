@@ -1,0 +1,10 @@
+rules:
+  no-basic-auth:
+    description: Basic authentication must not be used.
+    message: "{{property}} - Use a secure authentication mechanism (e.g., OAuth2, token-based)."
+    severity: error 
+    given: $..security[*] 
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "basic"
