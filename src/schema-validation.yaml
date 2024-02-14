@@ -1,0 +1,14 @@
+rules:
+  external-json-schema-validation:
+    description: Validate specific parts of the payload against an external schema.
+    message: "{{property}} - Does not conform to additional schema requirements."
+    severity: error
+    given: $..paths.*.*.parameters[?(@.in == 'body')] 
+    then:
+      function: javascript
+      functionOptions:
+        script: |
+          const ajv = new Ajv(); // Popular JSON Schema validator
+          const schemaRef = value.schema.$ref; // Assume it references an external file
+          const valid = await ajv.validate(schemaRef, value);
+          return valid;
