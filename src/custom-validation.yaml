@@ -1,0 +1,15 @@
+rules:
+  luhn-check:
+    description: Parameters representing card numbers must pass a Luhn check.
+    message: "{{property}} - Card number appears invalid."
+    severity: error
+    given: $..parameters[?(@.name =~ /.*card.*/i)]
+    then:
+      function: javascript 
+      functionOptions:
+        script: | 
+          // Simplified Luhn Check Algorithm Implementation
+          function isValidLuhn(value) {
+            // ...your Luhn Algorithm logic...
+          }
+          return isValidLuhn(value);
